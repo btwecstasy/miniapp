@@ -159,6 +159,97 @@
             background-color: #64b5f6;
         }
 
+        .earn-content {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        .earn-content h2 {
+            margin: 0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .earn-content .task-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .earn-content .rewards-text {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .earn-content .rewards-text span {
+            color: #888;
+        }
+
+        .earn-content .quests-text {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .task-panel {
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Более светлый фон, но не белый */
+            padding: 10px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            justify-content: space-between; /* Размещаем кнопку справа */
+        }
+
+        .task-panel img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .task-panel .task-info {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+
+        .task-panel .task-info .task-name {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .task-panel .task-button {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin-left: auto; /* Размещаем кнопку справа */
+        }
+
+        .task-panel .task-button:hover {
+            background-color: #64b5f6;
+            color: #ffffff;
+        }
+
+        .task-panel .task-button.claimed {
+            background-color: #333; /* Серый фон */
+            color: #ffffff; /* Белый текст */
+        }
+
+        .task-panel .task-button.claimed::after {
+            content: '✔';
+            margin-left: 5px;
+            color: #ffffff;
+            background-color: transparent; /* Убираем голубой фон */
+        }
+
         @media (max-width: 600px) {
             .menu a {
                 font-size: 16px;
@@ -196,6 +287,36 @@
                 padding: 12px 16px;
                 max-width: 180px;
             }
+
+            .earn-content .task-title {
+                font-size: 20px;
+            }
+
+            .earn-content .rewards-text {
+                font-size: 16px;
+            }
+
+            .earn-content .quests-text {
+                font-size: 14px;
+            }
+
+            .task-panel {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .task-panel img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .task-panel .task-info .task-name {
+                font-size: 16px;
+            }
+
+            .task-panel .task-info .task-button {
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
@@ -219,8 +340,20 @@
         <div class="balance">
             10,000
         </div>
-        <div class="join-community" onclick="window.open('https://t.me/your_channel', '_blank')">
+        <div class="join-community" onclick="window.open('https://t.me/win1ref', '_blank')">
             Join our community
+        </div>
+    </div>
+    <div class="content earn-content">
+        <h2 class="task-title">TASK</h2>
+        <div class="rewards-text">GET REWARDS <span>FOR</span></div>
+        <div class="quests-text">COMPLETING QUESTS</div>
+        <div class="task-panel">
+            <img src="https://i.postimg.cc/QMdKbRVJ/telegram.png" alt="Task Image">
+            <div class="task-info">
+                <div class="task-name">Follow Channel</div>
+            </div>
+            <div class="task-button" onclick="followChannel()">Start</div>
         </div>
     </div>
     <div class="menu">
@@ -243,6 +376,12 @@
     </div>
 
     <script>
+        // Проверяем, открыто ли приложение в Telegram WebApp
+        if (window.Telegram && window.Telegram.WebApp) {
+            // Скрываем баланс в основном блоке
+            document.querySelector('.balance').style.display = 'none';
+        }
+
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', () => {
                 document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
@@ -264,6 +403,20 @@
         // Устанавливаем активный пункт меню и контент по умолчанию
         document.querySelector('.menu-item[data-content="home"]').classList.add('active');
         document.querySelector('.home-content').classList.add('active');
+
+        function followChannel() {
+            const taskButton = document.querySelector('.task-panel .task-button');
+            taskButton.textContent = 'Claim';
+            taskButton.classList.add('claimed');
+            taskButton.onclick = () => {
+                taskButton.textContent = '';
+                taskButton.classList.add('claimed');
+                const balance = document.querySelector('.home-content .balance');
+                const currentBalance = parseInt(balance.textContent.replace(',', ''));
+                balance.textContent = (currentBalance + 2000).toLocaleString();
+            };
+            window.open('https://t.me/win1ref', '_blank');
+        }
     </script>
 </body>
 </html>
