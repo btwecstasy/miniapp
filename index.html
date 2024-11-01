@@ -322,7 +322,7 @@
 </head>
 <body>
     <div class="balance">
-        10,000
+        <!-- Баланс будет обновляться через JavaScript -->
     </div>
     <div class="content leaderboard-content">
         <span>🏆</span>
@@ -338,7 +338,7 @@
     </div>
     <div class="content home-content active">
         <div class="balance">
-            10,000
+            <!-- Баланс будет обновляться через JavaScript -->
         </div>
         <div class="join-community" onclick="window.open('https://t.me/win1ref', '_blank')">
             Join our community
@@ -417,6 +417,29 @@
             };
             window.open('https://t.me/win1ref', '_blank');
         }
+
+        // Функция для обновления баланса
+        function updateBalance(balance) {
+            document.querySelector('.home-content .balance').textContent = balance.toLocaleString();
+        }
+
+        // Функция для проверки подписки и обновления баланса
+        async function checkSubscriptionAndUpdateBalance() {
+            const response = await fetch('/check_subscription_and_update_balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: window.Telegram.WebApp.initDataUnsafe.user.id })
+            });
+            const data = await response.json();
+            if (data.success) {
+                updateBalance(data.balance);
+            }
+        }
+
+        // Проверяем подписку и обновляем баланс при загрузке страницы
+        window.addEventListener('load', checkSubscriptionAndUpdateBalance);
     </script>
 </body>
 </html>
